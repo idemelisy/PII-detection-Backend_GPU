@@ -5,9 +5,10 @@ srun --partition=cuda --qos=cuda --gres=gpu:1 --time=8:00:00 --mem=64G --pty bas
 module load miniconda3/22.11.1-oneapi-2024.0.2-vdx5rot
 module load cuda/10.2.89-gcc-8.5.0-h3fatfr
 conda activate piiranha
-cd ~/pii_gpu_backend/pii-detection-backend-gpu
-export PII_SAMPLE_MODELS_DIR=~/piiranha_test
-
+cd /cta/users/ide.yilmaz/pii-detection-backend-gpu
+pip install -r external_models/requirements.txt
+export PII_SAMPLE_MODELS_DIR=/cta/users/ide.yilmaz/pii-detection-backend-gpu/external_models/runtimes:/cta/users/ide.yilmaz/pii-detection-backend-gpu/sample_models
+  
 # 3. Flask + Cloudflared aynı anda çalıştır (tek satır!)
 nohup python app.py > ~/flask.log 2>&1 & sleep 12 && cloudflared tunnel --url http://127.0.0.1:5000
 
