@@ -1,0 +1,19 @@
+1- # 1. Yeni GPU node al
+srun --partition=cuda --qos=cuda --gres=gpu:1 --time=8:00:00 --mem=64G --pty bash
+
+# 2. Ortamı yükle
+module load miniconda3/22.11.1-oneapi-2024.0.2-vdx5rot
+module load cuda/10.2.89-gcc-8.5.0-h3fatfr
+conda activate piiranha
+cd ~/pii_gpu_backend/pii-detection-backend-gpu
+export PII_SAMPLE_MODELS_DIR=~/piiranha_test
+
+# 3. Flask + Cloudflared aynı anda çalıştır (tek satır!)
+nohup python app.py > ~/flask.log 2>&1 & sleep 12 && cloudflared tunnel --url http://127.0.0.1:5000
+
+flask çalışıyor mu kontrolü curl -s http://127.0.0.1:5000/health | grep status
+yeni terminal yeni allocation
+
+claudflared den gelen url yi lcoaldeki content.js ve background.js içinde eski url ile değiştir.https://abc-def-ghi-jkl.trycloudflare.com
+
+uzantılara git reload et daha sonra chat gpt sayfasını reload et çalıştır.
